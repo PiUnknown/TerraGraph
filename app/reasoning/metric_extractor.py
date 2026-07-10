@@ -25,16 +25,22 @@ Return ONLY a JSON object with these keys (use null for anything not mentioned o
 Rules:
 - Do NOT invent a value the user didn't state or clearly imply
 - "pretty dry" -> rainfall: "low" is a fair inference; a specific number the user never gave is not
+- If a "previous question" is given below, and the user's message is a short/terse reply (e.g. a single word), interpret it as answering THAT question specifically, and put it in the matching field
+- soil_organic_carbon_pct MUST be a number. If the user gives a qualitative answer for it ("low", "moderate", "high") instead of a number, convert it using these representative estimates: low -> 0.3, moderate -> 1.0, high -> 2.5. Only apply this conversion when the qualitative answer is clearly about soil organic carbon (e.g. because the previous question asked about it) — not about rainfall or moisture, which stay as strings.
 - Output ONLY the JSON object, no prose
 """
 
 
-def extract_metrics(message: str) -> EnvironmentalInput:
+def extract_metrics(message: str, context: str | None = None) -> EnvironmentalInput:
+    user_content = message
+    if context:
+        user_content = f"Previous question asked: \"{context}\"\nUser's reply: \"{message}\""
+
     response = _groq_client.chat.completions.create(
         model=GROQ_MODEL,
         messages=[
             {"role": "system", "content": EXTRACTION_SYSTEM_PROMPT},
-            {"role": "user", "content": message},
+            {"role": "user", "content": user_content},
         ],
         temperature=0.0,
         response_format={"type": "json_object"},
