@@ -57,6 +57,7 @@ if user_message:
                 response = requests.post(
                     API_URL,
                     json={"session_id": st.session_state.session_id, "message": user_message},
+                    headers={"ngrok-skip-browser-warning": "true"},
                     timeout=90,
                 )
                 response.raise_for_status()
