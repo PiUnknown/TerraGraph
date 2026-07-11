@@ -8,7 +8,21 @@ from app.knowledge.vector_store import VectorStore
 from app.utils.prompts import build_synthesis_prompt
 
 _groq_client = Groq(api_key=GROQ_API_KEY)
-_vector_store = VectorStore()
+
+# Lazily constructed on first real use, not at import time. Loading
+# the embedding model eagerly at module-import time means it
+# initializes during FastAPI's own startup, stacking peak memory
+# usage right when the process is most memory-constrained — a real
+# problem on Render's 512MB free tier. Deferring construction to the
+# first actual request spreads that cost out instead of front-loading it.
+_vector_store = None
+
+
+def _get_vector_store() -> VectorStore:
+    global _vector_store
+    if _vector_store is None:
+        _vector_store = VectorStore()
+    return _vector_store
 
 
 def generate_recommendations(user_input: EnvironmentalInput) -> ChatResponse:
@@ -30,7 +44,7 @@ def generate_recommendations(user_input: EnvironmentalInput) -> ChatResponse:
             recommendations=[],
         )
 
-    enriched = attach_evidence(matched, _vector_store, k=2)
+    enriched = attach_evidence(matched, _get_vector_store(), k=2)
     messages = build_synthesis_prompt(user_input, enriched)
 
     response = _groq_client.chat.completions.create(
