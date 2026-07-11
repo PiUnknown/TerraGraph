@@ -21,9 +21,5 @@ Thumbs.db
 .pytest_cache/
 .mypy_cache/
 
-# Chroma database
-chroma_db/
-*.sqlite3
-
 # Logs
 *.log

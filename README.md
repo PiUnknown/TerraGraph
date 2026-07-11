@@ -81,7 +81,7 @@ before either is combined with LLM synthesis.
 
 ### Why the LLM is used narrowly
 
-The LLM has exactly two jobs in this system, both bounded:
+The LLM has exactly three jobs in this system, all bounded:
 
 1. **Free-text → structured fields.** Turning "biodiversity is
    declining on my land, it's pretty dry here" into
@@ -94,11 +94,50 @@ The LLM has exactly two jobs in this system, both bounded:
    forbids merging distinct relationships into one recommendation, and
    requires exactly one recommendation per matched relationship — so
    the LLM's freedom is in *phrasing*, not in *deciding what's true*.
+3. **General conversation fallback.** If a message is genuinely
+   unrelated to soil/land/biodiversity (e.g. "what's the capital of
+   France?"), the system answers it normally instead of forcing every
+   message through the environmental-data pipeline. This keeps the
+   assistant feeling like a normal conversational agent rather than a
+   form that only accepts one kind of input.
 
 Everything else — which relationships apply, whether a clarifying
-question is needed, whether a message is small talk, multi-turn field
-accumulation — is deterministic Python, with no LLM call and no
-token cost.
+question is needed, whether a message is small talk, whether a
+message is on-topic, multi-turn field accumulation — is deterministic
+Python, with no LLM call and no token cost.
+
+### Routing logic for each incoming message
+
+Every message passes through an ordered set of deterministic checks
+before anything touches the LLM's environmental-extraction path:
+
+1. **Small talk check** (`small_talk.py`) — pure greetings, thanks, or
+   farewells get a canned response. Zero LLM calls, zero token cost.
+   Pattern-anchored to the *whole* message, so "Hi, my soil is dry"
+   does not match — only messages that are entirely small talk do.
+2. **On-topic check** (`intent.py`) — a keyword/stem check against a
+   broad set of land/soil/biodiversity-related terms.
+3. **Pending-clarification override** — if the assistant's *immediately
+   preceding* turn was specifically a clarifying question (tracked via
+   `session["awaiting_clarification"]`, not just "was there any prior
+   assistant turn"), a short, keyword-free reply like "moderate" or
+   "0.3" is still routed to extraction rather than treated as
+   off-topic, since it's very likely answering that pending question.
+4. If neither of the above holds, the message goes to a lightweight
+   general-conversation LLM call instead of the environmental
+   extraction pipeline — the assistant answers normally rather than
+   demanding land data for an unrelated question.
+5. Otherwise, the message proceeds through extraction → merge →
+   completeness check → clarifying question or synthesis, as described
+   above.
+
+This ordering was refined after finding a real bug: an earlier version
+gated the off-topic check on "did the assistant say anything last
+turn," which is true after almost every message, so a second unrelated
+question (e.g. asking two general-knowledge questions in a row) would
+incorrectly get routed back into the clarifying-question loop. The fix
+was to track specifically *whether a clarifying question is currently
+pending*, not just whether any assistant turn exists.
 
 ---
 
@@ -153,11 +192,16 @@ TerraGraph/
 │   │   ├── metric_extractor.py # free text -> structured metrics (LLM)
 │   │   └── synthesizer.py      # orchestrates matching + evidence + LLM synthesis
 │   ├── conversation/
-│   │   ├── session_manager.py  # in-memory multi-turn state
+│   │   ├── session_manager.py  # in-memory multi-turn state + clarification tracking
 │   │   ├── clarifier.py        # missing-field detection + question templates
-│   │   └── small_talk.py       # deterministic greeting/thanks/farewell handling
+│   │   ├── small_talk.py       # deterministic greeting/thanks/farewell handling
+│   │   └── intent.py           # on-topic check + terse-clarification-answer detection
 │   ├── api/routes.py           # /chat (text) and /chat/structured (JSON) endpoints
 │   └── utils/prompts.py        # LLM system prompts
+│
+│   (app/reasoning/general_chat.py handles off-topic messages —
+│    a lightweight, unconstrained LLM call, separate from the
+│    strict-schema synthesis call)
 ├── data/
 │   ├── sources/                # raw source PDFs
 │   └── chroma_db/              # persisted vector store
