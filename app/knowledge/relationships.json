@@ -1,7 +1,10 @@
 [
   {
     "id": "soc_soil_biodiversity_two_way_feedback",
-    "trigger": {"metric": "soil_organic_carbon_pct", "condition": "< 0.5"},
+    "trigger": {
+      "metric": "soil_organic_carbon_pct",
+      "condition": "< 0.5"
+    },
     "affects_metric": "soil_microbial_diversity",
     "mechanism": "SOC formation depends on soil biota breaking down organic litter, and in turn the quantity/quality of SOC determines how much microbial activity the soil can support — a two-way feedback, not a one-way cause.",
     "intervention": "Increase SOC inputs via organic amendments or reduced tillage to support microbial community recovery",
@@ -10,7 +13,10 @@
   },
   {
     "id": "intensive_management_reduces_soil_biodiversity",
-    "trigger": {"metric": "land_use_type", "condition": "intensive monoculture heavy tillage chemical inputs"},
+    "trigger": {
+      "metric": "land_use_type",
+      "condition": "intensive monoculture heavy tillage chemical inputs"
+    },
     "affects_metric": "soil_biodiversity",
     "mechanism": "Intensive land management pushes soils toward a low-biodiversity state, which increases pest/pathogen pressure and decreases beneficial organisms — shown as a branching pathway in the source's own figure.",
     "intervention": "Shift toward reduced-intensity management: crop rotation, reduced tillage, lower chemical input",
@@ -19,7 +25,10 @@
   },
   {
     "id": "macrofauna_soc_translocation",
-    "trigger": {"metric": "soil_organic_carbon_pct", "condition": "< 0.5"},
+    "trigger": {
+      "metric": "soil_organic_carbon_pct",
+      "condition": "< 0.5"
+    },
     "affects_metric": "soil_organic_carbon_pct",
     "mechanism": "Earthworms and millipedes physically break down and translocate organic matter to deeper soil layers, where it has a longer residence time before decomposing back to CO2 — low SOC is both a symptom and a driver of reduced macrofauna activity.",
     "intervention": "Practices that support macrofauna populations (reduced tillage, organic residue retention)",
@@ -28,7 +37,10 @@
   },
   {
     "id": "cover_cropping_and_rotation_support_soc",
-    "trigger": {"metric": "land_use_type", "condition": "monoculture cover crop rotation"},
+    "trigger": {
+      "metric": "land_use_type",
+      "condition": "monoculture cover crop rotation"
+    },
     "affects_metric": "soil_organic_carbon_pct",
     "mechanism": "Cover cropping and crop rotation increase the amount and continuity of photosynthetic carbon input to soil, supporting SOC accumulation over conventional monoculture.",
     "intervention": "Introduce cover crops and/or crop rotation",
@@ -37,7 +49,10 @@
   },
   {
     "id": "soc_increases_water_holding_capacity",
-    "trigger": {"metric": "soil_organic_carbon_pct", "condition": "< 0.5"},
+    "trigger": {
+      "metric": "soil_organic_carbon_pct",
+      "condition": "< 0.5"
+    },
     "affects_metric": "soil_water_holding_capacity",
     "mechanism": "Organic matter improves soil aggregate and structural stability, which increases porosity and water infiltration, reducing runoff and improving drought buffering.",
     "intervention": "Raise SOC through organic amendments to improve water retention",
@@ -46,7 +61,10 @@
   },
   {
     "id": "aridity_soil_moisture_soc_npp_feedback_loop",
-    "trigger": {"metric": "rainfall", "condition": "low"},
+    "trigger": {
+      "metric": "rainfall",
+      "condition": "low"
+    },
     "affects_metric": "soil_organic_carbon_pct",
     "mechanism": "Lower rainfall and rising temperature increase aridity and evapotranspiration, which reduces soil moisture; lower soil moisture reduces both SOC and plant productivity (NPP), which further degrades soil and expands dryland conditions — a self-reinforcing feedback loop.",
     "intervention": "Interventions that raise soil water retention (mulching, cover crops, agroforestry canopy shade) to interrupt the feedback loop",
@@ -55,7 +73,10 @@
   },
   {
     "id": "land_use_change_largest_biodiversity_driver",
-    "trigger": {"metric": "land_use_type", "condition": "converted natural intact ecosystem"},
+    "trigger": {
+      "metric": "land_use_type",
+      "condition": "converted natural intact ecosystem"
+    },
     "affects_metric": "terrestrial_and_freshwater_biodiversity",
     "mechanism": "Land-use change is identified as the direct driver with the single largest relative negative impact on terrestrial and freshwater ecosystems since 1970, ahead of direct exploitation, pollution, and climate change.",
     "intervention": "Prioritize land-use interventions (reduce further conversion, restore degraded land) over other single levers when addressing terrestrial biodiversity loss",
@@ -64,7 +85,10 @@
   },
   {
     "id": "land_degradation_reduces_productivity_and_pollinator_value",
-    "trigger": {"metric": "land_use_type", "condition": "degraded intensively managed"},
+    "trigger": {
+      "metric": "land_use_type",
+      "condition": "degraded intensively managed"
+    },
     "affects_metric": "crop_productivity",
     "mechanism": "Land degradation directly reduces terrestrial productivity. Independently, pollinator decline (a biodiversity indicator) puts a large share of pollinator-dependent crop output at risk, since most leading global food crops depend at least partly on animal pollination.",
     "intervention": "Sustainable land management + pollinator-supporting practices (habitat strips, reduced pesticide use, agroforestry)",
@@ -73,7 +97,10 @@
   },
   {
     "id": "species_abundance_decline_since_1900",
-    "trigger": {"metric": "land_use_type", "condition": "human altered land long term"},
+    "trigger": {
+      "metric": "land_use_type",
+      "condition": "human altered land long term"
+    },
     "affects_metric": "native_species_abundance",
     "mechanism": "Widespread human alteration of land has driven a long-term decline in native species abundance across most terrestrial biomes, with the decline concentrated since 1900 and potentially accelerating.",
     "intervention": "Habitat restoration and reduced land conversion",
@@ -82,7 +109,10 @@
   },
   {
     "id": "land_use_intensity_gradient_species_richness",
-    "trigger": {"metric": "land_use_type", "condition": "monoculture"},
+    "trigger": {
+      "metric": "land_use_type",
+      "condition": "monoculture"
+    },
     "affects_metric": "plant_species_richness",
     "mechanism": "Species richness scales with structural and floral complexity of the land-use system — continuous monoculture supports far fewer species per plot than agroforestry, which in turn supports fewer than primary forest.",
     "intervention": "Convert monoculture plots to agroforestry/intercropping systems to raise on-plot species richness",
@@ -91,7 +121,10 @@
   },
   {
     "id": "habitat_patch_size_increases_species_richness",
-    "trigger": {"metric": "land_use_type", "condition": "small fragmented land parcels"},
+    "trigger": {
+      "metric": "land_use_type",
+      "condition": "small fragmented land parcels"
+    },
     "affects_metric": "plant_species_richness",
     "mechanism": "Species richness in home-garden agroforestry systems increases with the size of the garden/patch — a direct instance of the species-area relationship central to habitat fragmentation ecology.",
     "intervention": "Where possible, consolidate or expand green patch size rather than fragmenting into smaller disconnected plots",
@@ -100,7 +133,10 @@
   },
   {
     "id": "monoculture_vs_agroforestry_pollinator_retention",
-    "trigger": {"metric": "land_use_type", "condition": "monoculture"},
+    "trigger": {
+      "metric": "land_use_type",
+      "condition": "monoculture"
+    },
     "affects_metric": "pollinator_diversity",
     "mechanism": "Compared to intact forest, monoculture cropping causes a much larger drop in pollinator diversity than mixed-tree agroforestry does, because agroforestry retains more of the vegetation structure, nesting sites, and floral resources pollinators depend on.",
     "intervention": "Convert monoculture cropland to mixed-tree agroforestry / intercropping to retain pollinator populations",
@@ -109,7 +145,10 @@
   },
   {
     "id": "agroforestry_increases_avian_richness",
-    "trigger": {"metric": "land_use_type", "condition": "monoculture"},
+    "trigger": {
+      "metric": "land_use_type",
+      "condition": "monoculture"
+    },
     "affects_metric": "avian_species_richness",
     "mechanism": "Tree integration in cropland provides nesting sites, food sources, and structural complexity that row-crop monoculture lacks, directly increasing bird species richness over time.",
     "intervention": "Introduce tree-based intercropping or windbreaks into row-crop systems",
@@ -118,7 +157,10 @@
   },
   {
     "id": "agroforestry_increases_soil_bacterial_diversity",
-    "trigger": {"metric": "land_use_type", "condition": "monoculture"},
+    "trigger": {
+      "metric": "land_use_type",
+      "condition": "monoculture"
+    },
     "affects_metric": "soil_bacterial_abundance_and_diversity",
     "mechanism": "The higher root density and diversity of vegetation (trees, shrubs, grass, crops) in agroforestry systems increases belowground biomass input and root-associated microbial habitat, raising bacterial abundance and richness relative to monoculture.",
     "intervention": "Integrate trees/shrubs into cropland to raise belowground microbial diversity",
@@ -127,11 +169,63 @@
   },
   {
     "id": "agroforestry_natural_pest_control",
-    "trigger": {"metric": "land_use_type", "condition": "monoculture coffee", "match_mode": "all"},
+    "trigger": {
+      "metric": "land_use_type",
+      "condition": "monoculture coffee",
+      "match_mode": "all"
+    },
     "affects_metric": "pest_infestation_rate",
     "mechanism": "Higher insect and bird biodiversity in agroforestry systems supports natural enemies of crop pests (ants, parasitoids, insectivorous birds), suppressing pest populations without chemical input.",
     "intervention": "Adopt agroforestry coffee/cocoa systems to support natural pest-control fauna",
     "estimated_effect": "Coffee berry borer infestation was 69% lower in agroforestry coffee than in monocrop coffee in West Africa (cited in source)",
     "source": "MDPI Sustainability 2019, 11(10):2879, Section 3.2, p.8"
+  },
+  {
+    "id": "deforestation_reduces_biodiversity",
+    "trigger": {
+      "metric": "deforestation_present",
+      "condition": "true"
+    },
+    "affects_metric": "terrestrial_biodiversity",
+    "mechanism": "Avoiding and reducing deforestation, combined with restoration, produces significant, well-established biodiversity benefits — in scenario modeling, this is one of the few interventions shown to result in low biodiversity loss or even net recovery, in contrast to continued land conversion.",
+    "intervention": "Halt further deforestation on the property and prioritize restoration of any already-cleared areas",
+    "estimated_effect": "Avoiding/reducing deforestation and promoting restoration is characterized as producing significant biodiversity benefits (well established), in contrast to continued land-based expansion which risks further biodiversity loss",
+    "source": "IPBES Global Assessment SPM 2019, Section 4.2.4.3 / 4.5.3"
+  },
+  {
+    "id": "pollution_reduces_biodiversity",
+    "trigger": {
+      "metric": "pollution_present",
+      "condition": "true"
+    },
+    "affects_metric": "biodiversity",
+    "mechanism": "Air, water, and soil pollution have continued to increase in many areas globally and are directly associated with negative impacts on nature — pollution is named as one of the five direct drivers of global biodiversity decline, alongside land-use change, direct exploitation, climate change, and invasive species.",
+    "intervention": "Identify and reduce pollution sources on or near the land (runoff, chemical inputs, waste discharge) as part of any biodiversity recovery plan",
+    "estimated_effect": "Marine plastic pollution alone has increased tenfold since 1980, affecting at least 267 species — cited as representative of the broader scale of pollution's documented impact on biodiversity",
+    "source": "IPBES Global Assessment SPM 2019, point B3"
+  },
+  {
+    "id": "low_soil_ph_amplifies_soc_loss",
+    "trigger": {
+      "metric": "soil_ph",
+      "condition": "< 5.5"
+    },
+    "affects_metric": "soil_organic_carbon_pct",
+    "mechanism": "A meta-analysis found that overgrazing decreases soil organic carbon stocks the most specifically under dry climates and low soil pH conditions — acidic soils are more vulnerable to SOC loss under degrading land-use pressure than neutral/alkaline soils facing the same pressure.",
+    "intervention": "Prioritize organic amendments (compost, biochar) which improve both nutrient and pH buffering capacity alongside SOC",
+    "estimated_effect": "Qualitative — meta-analysis establishes the direction (low pH amplifies SOC loss under degrading conditions) without a single bundled percentage",
+    "source": "Dlamini, Chivenge & Chaplot (2016), cited in FAO 2017, Section on management strategies, p.49"
+  },
+  {
+    "id": "water_stress_reduces_freshwater_species_survival",
+    "trigger": {
+      "metric": "rainfall",
+      "condition": "low"
+    },
+    "affects_metric": "freshwater_species_survival",
+    "mechanism": "Inland waters and freshwater ecosystems show among the highest rates of ecological decline of any biome type, and vertebrate population trends show freshwater species declining far more severely than terrestrial or marine species over the same period — water availability is one of the most direct pressures on species survival documented globally.",
+    "intervention": "Protect and restore any wetland, stream, or freshwater habitat features on the property, even small ones, as part of a biodiversity strategy",
+    "estimated_effect": "Since 1970, vertebrate populations have declined 40% for terrestrial species, 84% for freshwater species, and 35% for marine species (Living Planet Index); only 13% of wetlands present in 1700 remained by 2000",
+    "source": "IPBES Global Assessment SPM 2019, Section 2.2.5.2 / 2.2.7.9"
   }
 ]

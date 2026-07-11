@@ -164,15 +164,35 @@ layer that isn't doing meaningful work here.
 
 ## Knowledge base sources
 
-Five real, citable documents, chosen to cover the assignment's three
-required cross-links (soil↔biodiversity, water↔species survival,
-land-use↔habitat fragmentation):
+Five real, citable documents, chosen to cover the assignment's five
+required knowledge categories (soil health, land use, biodiversity
+indicators, climate factors, human impact) and all three required
+cross-links (soil↔biodiversity, water↔species survival, land-use↔habitat
+fragmentation):
 
 - FAO (2017), *Soil Organic Carbon: The Hidden Potential*
 - IPCC SRCCL, Chapter 4 — Land Degradation
 - IPBES Global Assessment, Summary for Policymakers (2019)
 - MDPI *Sustainability* (2019), 11(10):2879 — Agroforestry and Biodiversity
 - Frontiers in Agronomy (2025) — Diversified vs. monoculture cropping systems
+
+The relationship table (`relationships.json`) has 19 curated entries,
+each tied to a specific trigger condition, mechanism, and citation.
+Notably, `deforestation_present` and `pollution_present` — collected
+in the input schema from the start, per the assignment's "human
+impact (pollution, deforestation)" knowledge requirement — were
+discovered mid-project to be silently unreachable: the matching
+function only ever checked numeric or string fields, never booleans,
+so no relationship keyed on them could ever fire. This was fixed by
+adding explicit boolean-field matching, plus two new relationships
+that actually use those fields (deforestation → biodiversity impact,
+pollution → biodiversity impact, both cited to IPBES). A fourth new
+relationship ties soil pH to SOC loss risk under degrading conditions
+(cited to a meta-analysis referenced in the FAO report), and a fifth
+ties water stress directly to freshwater species survival decline
+(cited to IPBES's Living Planet Index figures) — closing the
+water↔species-survival cross-link more directly than the original
+water↔productivity relationship alone.
 
 ## Folder structure
 
@@ -235,13 +255,15 @@ python -m tests.test_example_case
 
 ## Known limitations
 
-- **Knowledge base coverage is cropland-focused.** The 5 curated
-  sources and ~15 relationships cover monoculture, agroforestry, cover
-  cropping, and related soil/land-use dynamics well. Land types outside
-  that scope (pasture, forestry, wetlands) will correctly return "no
-  matching evidence" rather than a fabricated answer — this is
-  intentional (no false positives), but it does mean coverage is
-  narrower than the space of all possible land descriptions.
+- **Knowledge base breadth is still bounded by 5 sources.** All
+  5 required categories and cross-links are now covered with real
+  citations, but coverage within each is necessarily selective —
+  e.g. deforestation/pollution relationships exist but are broad
+  (general biodiversity impact) rather than covering every possible
+  pollutant type or deforestation scenario. Land types outside the
+  sources' scope (pasture, forestry, wetlands as a primary land use)
+  will correctly return "no matching evidence" rather than a
+  fabricated answer.
 - **Confidence levels are LLM-assigned, not derived from a fixed
   rule.** A future iteration could compute confidence from whether
   the relationship's `estimated_effect` contains a hard number versus

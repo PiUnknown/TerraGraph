@@ -7,6 +7,14 @@ RELATIONSHIPS_PATH = "app/knowledge/relationships.json"
 
 NUMERIC_METRICS = {"soil_organic_carbon_pct", "soil_ph", "temperature_c"}
 
+# Boolean input fields. Previously unhandled by match_relationships —
+# deforestation_present and pollution_present were collected in the
+# schema and asked about in the assignment's "human impact" knowledge
+# category, but no matching branch ever checked them, so any
+# relationship keyed on them could never fire. This set + the new
+# elif branch below fixes that.
+BOOLEAN_METRICS = {"deforestation_present", "pollution_present"}
+
 STOPWORDS = {"and", "or", "the", "a", "to", "of", "from", "with", "without", "in", "on", "at"}
 
 
@@ -105,6 +113,9 @@ def match_relationships(user_input: EnvironmentalInput, relationships: list[dict
 
         if trigger_metric in NUMERIC_METRICS:
             if isinstance(input_value, (int, float)) and _matches_numeric(input_value, trigger_condition):
+                matched.append(rel)
+        elif trigger_metric in BOOLEAN_METRICS:
+            if isinstance(input_value, bool) and str(input_value).lower() == trigger_condition.lower():
                 matched.append(rel)
         else:
             match_mode = rel["trigger"].get("match_mode", "any")
