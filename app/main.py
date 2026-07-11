@@ -6,7 +6,7 @@ app = FastAPI(title="Darukaa.Earth Biodiversity Intelligence Chatbot")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten to your specific Streamlit Cloud URL once deployed
+    allow_origins=["https://terragraph-x7oxucctkmfigypnt429be.streamlit.app"],
     allow_methods=["*"],
     allow_headers=["*"],
 )

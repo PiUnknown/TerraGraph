@@ -57,10 +57,17 @@ if user_message:
                 response = requests.post(
                     API_URL,
                     json={"session_id": st.session_state.session_id, "message": user_message},
-                    timeout=60,
+                    timeout=90,
                 )
                 response.raise_for_status()
                 data = response.json()
+            except requests.exceptions.Timeout:
+                st.error(
+                    "The backend is waking up from sleep (this happens after ~15 minutes of "
+                    "inactivity on the free tier) — this can take up to a minute. Please wait "
+                    "a moment and send your message again."
+                )
+                st.stop()
             except requests.RequestException as e:
                 st.error(f"Couldn't reach the backend: {e}")
                 st.stop()
