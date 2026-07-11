@@ -254,3 +254,20 @@ python -m tests.test_example_case
   matching deterministic and auditable, at the cost of requiring
   trigger conditions to be worded reasonably close to expected input
   phrasing.
+- **Free-tier deployment is memory-constrained.** The full stack
+  (`torch` + `sentence-transformers` + `chromadb`) sits close to
+  Render's free 512MB ceiling; an OOM crash was observed in testing
+  even after lazy-loading the embedding model. See `INTERVIEW_DEFENSE.md`
+  for the fuller discussion and the local+ngrok fallback used for
+  reliable live demos.
+
+## Testing
+
+Beyond the assignment's own worked example, the system was validated
+against a single 13-message conversation covering: small talk,
+consecutive off-topic questions (a routing bug was found and fixed
+here), progressive multi-turn clarification with terse/qualitative
+answers, mid-conversation value correction in both directions, and
+the honest "no evidence found" path deep into an accumulated session
+— all without resetting conversation state. See `INTERVIEW_DEFENSE.md`
+for the specific bugs this process surfaced and how each was fixed.
