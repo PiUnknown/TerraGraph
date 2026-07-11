@@ -7,6 +7,10 @@ API_URL = "http://127.0.0.1:8000/chat"
 st.set_page_config(page_title="Darukaa.Earth Biodiversity Assistant", page_icon="🌱")
 st.title("🌱 Darukaa.Earth — Biodiversity Intelligence Chatbot")
 st.caption("Ask about your land's biodiversity, soil, or climate conditions.")
+if st.button("🔄 New conversation"):
+    st.session_state.session_id = str(uuid.uuid4())
+    st.session_state.messages = []
+    st.rerun()
 
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())

@@ -47,20 +47,45 @@ def _matches_numeric(value: float, condition: str) -> bool:
     return False
 
 
+def _word_matches(keyword: str, token: str) -> bool:
+    """
+    True if keyword and token are the same word or clear variants of
+    each other (intensive/intensively, degraded/degrade, managed/
+    management, converted/conversion). Uses a shared-prefix check
+    rather than exact equality, since real-world phrasing varies in
+    tense/form and exact matching missed genuine matches.
+
+    Only applies the fuzzy prefix check for words 5+ characters long,
+    specifically to avoid resurrecting the earlier substring bug
+    (e.g. "land" must NOT fuzzy-match "landscape" or "grassland" —
+    both keyword and token need real shared stems, not a short
+    coincidental prefix).
+    """
+    if keyword == token:
+        return True
+    if len(keyword) >= 5 and len(token) >= 5:
+        return keyword[:5] == token[:5]
+    return False
+
+
 def _matches_categorical(value: str, condition: str, match_mode: str = "any") -> bool:
     if not value:
         return False
 
-    value_lower = value.lower()
+    value_words = set(re.findall(r"[a-z0-9]+", value.lower()))
+
     condition_clean = re.sub(r"[^\w\s]", " ", condition.lower())
     keywords = [w for w in condition_clean.split() if w and w not in STOPWORDS]
 
     if not keywords:
         return False
 
+    def keyword_hit(keyword: str) -> bool:
+        return any(_word_matches(keyword, token) for token in value_words)
+
     if match_mode == "all":
-        return all(keyword in value_lower for keyword in keywords)
-    return any(keyword in value_lower for keyword in keywords)
+        return all(keyword_hit(k) for k in keywords)
+    return any(keyword_hit(k) for k in keywords)
 
 
 def match_relationships(user_input: EnvironmentalInput, relationships: list[dict] = None) -> list[dict]:

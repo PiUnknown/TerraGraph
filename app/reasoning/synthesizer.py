@@ -16,9 +16,17 @@ def generate_recommendations(user_input: EnvironmentalInput) -> ChatResponse:
 
     if not matched:
         return ChatResponse(
-            message="I couldn't match your input to any known relationship in the knowledge base. "
-                    "This usually means the values are outside the ranges I have evidence for, "
-                    "or a required field is missing.",
+            message=(
+                "I don't have evidence-backed relationships covering this exact combination "
+                f"(land use: '{user_input.land_use_type}', rainfall: '{user_input.rainfall}', "
+                f"region: '{user_input.region_type}') in my current knowledge base. "
+                "My knowledge base currently focuses on cropland practices — monoculture, cover "
+                "cropping, crop rotation, and agroforestry — grounded in FAO, IPBES, and peer-reviewed "
+                "sources. If your land is grazing pasture, forest, or another system, I may not have "
+                "grounded evidence for it yet. Try describing a cropland scenario, or tell me if soil "
+                "organic carbon is low (under 0.5%) or land use involves monoculture — those trigger "
+                "the most relationships I currently have."
+            ),
             recommendations=[],
         )
 

@@ -1,4 +1,3 @@
-import re
 from app.models.schemas import EnvironmentalInput
 
 FIELD_PROMPTS = {
@@ -7,20 +6,6 @@ FIELD_PROMPTS = {
     "land_use_type": "what's currently growing there (e.g. monoculture wheat, mixed cropping, grassland)",
     "region_type": "the general region/climate type (e.g. semi-arid, tropical, temperate)",
 }
-
-_GREETING_PATTERN = re.compile(
-    r"^\s*(hi+|hello+|hey+|hiya|yo|hlo|good\s?(morning|afternoon|evening))\s*[!.]*\s*$",
-    re.IGNORECASE,
-)
-
-
-def is_greeting(message: str) -> bool:
-    """
-    True only for pure greetings with no other content — "Hi" or
-    "Hello there" match, "Hi, my soil is dry" does not (that has real
-    information in it and should go through normal extraction).
-    """
-    return bool(_GREETING_PATTERN.match(message))
 
 
 def build_clarifying_question(user_input: EnvironmentalInput) -> str | None:
